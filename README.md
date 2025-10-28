@@ -5,9 +5,11 @@ Student Number: ST10494935
 
 Course: Higher Certificate of Mobile Application and Web Development (HMAW)
 
-MAST5112: Part 2
+MAST5112: Part 2 and 3 (Portfolio of Evidence)
 
-Github Repository: 
+Github Repository: https://github.com/hermetati46/Christoffels-Menu-App
+
+Youtube Link: https://youtu.be/lvrrrC2VZ78
 
 # Project Overview
 Christoffel's Menu is a streamlined tool to replace complex digital menu systems. A chef can quickly update the day's offerings, ensuring the menu is always current. The application features a clean, user-friendly design focused on efficiency and ease of use. It also includes a filtered "guest view" to see the menu as a customer would.
@@ -45,25 +47,30 @@ The application is built around a few key screens, allowing for a logical and st
 <br>
 
 2. **Home Screen** 
-<img width="535" height="904" alt="Home" src="https://github.com/user-attachments/assets/fbf60db4-e9e0-4425-97d3-8ffab519f76f" />
+<img width="547" height="915" alt="Home 2" src="https://github.com/user-attachments/assets/45fb135c-6cf1-493a-a948-1a2e140c7719" />
+
 
 
 <br>
 <br>
 
 3. **Add Item Screen:**
-<img width="537" height="907" alt="Add Item" src="https://github.com/user-attachments/assets/4eb76c98-cee3-4985-a37f-8ba98582a7a5" />
+<img width="546" height="911" alt="Add Item 2" src="https://github.com/user-attachments/assets/5223054d-f3bd-41b5-8fa7-9f4658d4cefd" />
 
 
 <br>
 <br>
 
 4. **Filter Screen:**
-<img width="540" height="906" alt="Filter" src="https://github.com/user-attachments/assets/0b02cfe2-1a5a-4c56-82d0-9148bfb4b43a" />
+<img width="543" height="915" alt="Filter 2" src="https://github.com/user-attachments/assets/474373a1-00ec-490b-b86c-231e6921387e" />
 
 
 # Changelog
 - 2025-10-06: Initial release of Christoffel's Menu App. Project logic implemented. Pushed initial commits to remote repository. Created README.md file
+
+- 2025-10-28: Added statistics display (Stats Card component) and calculates statistics of menu items (Average Prices and Quantity of each course).
+
+- 2025-11-12: Refactored AddItemScreen, FilterScreen, and HomeScreen with improved UI, styling, input functionality, and enhanced statistics display, along with better handling of empty states and responsiveness.
 
 # References
 - React Nactive. (2025). Core Components and Native Components. [online] Available at: <https://reactnative.dev/docs/intro-react-native-components> [Accessed 4 October 2025].

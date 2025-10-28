@@ -43,7 +43,7 @@ const AppNavigator = () => {
       />
       <Stack.Screen 
         name="Home"
-        options={{ title: 'Admin Dashboard' }}
+        options={{ title: 'Christoffel\'s Menu' }}
       >
         {(props) => (
           <HomeScreen
@@ -61,7 +61,7 @@ const AppNavigator = () => {
       <Stack.Screen 
         name="Filter" 
         component={FilterScreen} 
-        options={{ title: 'Guest Menu' }}
+        options={{ title: 'Filter Menu' }}
       />
     </Stack.Navigator>
   );

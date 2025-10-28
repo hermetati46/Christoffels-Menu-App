@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'; // Import useMemo
+import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert, Platform } from 'react-native';
 import { HomeScreenProps, MenuItem } from '../types';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,7 +10,6 @@ interface HomeProps extends HomeScreenProps {
   setMenuItems: React.Dispatch<React.SetStateAction<MenuItem[]>>;
 }
 
-// A new component for rendering the stat cards
 const StatsCard = ({ title, value }: { title: string, value: string }) => (
   <View style={styles.statsCard}>
     <Text style={styles.statsCardTitle}>{title}</Text>
@@ -18,12 +17,19 @@ const StatsCard = ({ title, value }: { title: string, value: string }) => (
   </View>
 );
 
+const APP_BACKGROUND = '#FBF8F1'; // Define warm background
+const PRIMARY_COLOR = '#B48A60'; // Main brand color
+const TEXT_DARK = '#3A3A3A';
+const TEXT_LIGHT = '#595959';
+const BORDER_COLOR = '#EAEAEA';
+const CARD_BG = '#FFFFFF';
+
 const HomeScreen = ({ navigation, route, menuItems, setMenuItems }: HomeProps) => {
   React.useEffect(() => {
     if (route.params?.newItem) {
       setMenuItems((prevItems) => [...prevItems, route.params.newItem]);
     }
-  }, [route.params?.newItem, setMenuItems]); // Added setMenuItems dependency
+  }, [route.params?.newItem, setMenuItems]);
 
   const handleDelete = (id: string) => {
     if (Platform.OS === 'web') {
@@ -43,7 +49,6 @@ const HomeScreen = ({ navigation, route, menuItems, setMenuItems }: HomeProps) =
     }
   };
 
-  // Calculate stats using useMemo so it only runs when menuItems changes
   const stats = useMemo(() => {
     const courseStats = {
       Starters: { count: 0, totalPrice: 0 },
@@ -51,7 +56,6 @@ const HomeScreen = ({ navigation, route, menuItems, setMenuItems }: HomeProps) =
       Desserts: { count: 0, totalPrice: 0 },
     };
 
-    // Calculate total count and price for each course
     menuItems.forEach(item => {
       if (courseStats[item.course]) {
         courseStats[item.course].count += 1;
@@ -59,25 +63,15 @@ const HomeScreen = ({ navigation, route, menuItems, setMenuItems }: HomeProps) =
       }
     });
 
-    // Helper to calculate average and format it
     const calculateAverage = (course: 'Starters' | 'Mains' | 'Desserts') => {
       const { count, totalPrice } = courseStats[course];
       return count > 0 ? (totalPrice / count).toFixed(2) : '0.00';
     };
 
     return {
-      Starters: {
-        count: courseStats.Starters.count,
-        averagePrice: calculateAverage('Starters'),
-      },
-      Mains: {
-        count: courseStats.Mains.count,
-        averagePrice: calculateAverage('Mains'),
-      },
-      Desserts: {
-        count: courseStats.Desserts.count,
-        averagePrice: calculateAverage('Desserts'),
-      },
+      Starters: { count: courseStats.Starters.count, averagePrice: calculateAverage('Starters') },
+      Mains: { count: courseStats.Mains.count, averagePrice: calculateAverage('Mains') },
+      Desserts: { count: courseStats.Desserts.count, averagePrice: calculateAverage('Desserts') },
     };
   }, [menuItems]);
 
@@ -88,10 +82,8 @@ const HomeScreen = ({ navigation, route, menuItems, setMenuItems }: HomeProps) =
     />
   );
 
-  // This component renders the new stats sections
   const renderListHeader = () => (
     <View>
-      {/* Total Items Section */}
       <View style={styles.statsContainer}>
         <Text style={styles.statsHeader}>Total Items</Text>
         <View style={styles.statsRow}>
@@ -101,7 +93,6 @@ const HomeScreen = ({ navigation, route, menuItems, setMenuItems }: HomeProps) =
         </View>
       </View>
 
-      {/* Average Price Section */}
       <View style={styles.statsContainer}>
         <Text style={styles.statsHeader}>Average Price</Text>
         <View style={styles.statsRow}>
@@ -111,25 +102,21 @@ const HomeScreen = ({ navigation, route, menuItems, setMenuItems }: HomeProps) =
         </View>
       </View>
 
-      {/* Title for the menu list */}
       <Text style={styles.menuListHeader}>Menu Items</Text>
     </View>
   );
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Christoffel's Menu</Text>
-      </View>
       <FlatList
         data={menuItems}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContainer}
-        ListHeaderComponent={renderListHeader} // Add the stats as a header to the list
+        ListHeaderComponent={renderListHeader}
         ListEmptyComponent={
           <View>
-            {renderListHeader()} {/* Show header even when list is empty */}
+            {renderListHeader()}
             <Text style={styles.emptyText}>No menu items found. Add one!</Text>
           </View>
         }
@@ -149,73 +136,81 @@ const HomeScreen = ({ navigation, route, menuItems, setMenuItems }: HomeProps) =
 };
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#F8F9FA' },
-  header: { paddingVertical: 20, paddingHorizontal: 16 },
-  headerTitle: { fontSize: 28, fontWeight: 'bold', textAlign: 'center', color: '#343A40' },
-  
-  // --- New Stats Styles ---
+  safeArea: { flex: 1, backgroundColor: APP_BACKGROUND },
   statsContainer: {
     marginBottom: 24,
   },
   statsHeader: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '600',
-    color: '#495057', // Using a color from your screenshot's palette
+    color: TEXT_DARK,
     marginBottom: 12,
   },
   statsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginHorizontal: -5, // Counteract card margin
   },
   statsCard: {
-    flex: 1, // Each card will take up equal space
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
+    flex: 1,
+    backgroundColor: CARD_BG,
+    borderRadius: 15,
     padding: 16,
-    marginHorizontal: 4, // Add slight spacing between cards
+    marginHorizontal: 5,
     alignItems: 'center',
     ...Platform.select({
       ios: {
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
+        shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.05,
-        shadowRadius: 4,
+        shadowRadius: 8,
       },
       android: {
-        elevation: 2,
+        elevation: 3,
       },
       web: {
-        boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
+        boxShadow: '0 4px 8px rgba(0,0,0,0.05)',
       }
     }),
   },
   statsCardTitle: {
     fontSize: 14,
-    color: '#6C757D',
-    marginBottom: 4,
+    color: TEXT_LIGHT,
+    marginBottom: 6,
+    fontWeight: '500',
   },
   statsCardValue: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#212529',
+    fontSize: 21,
+    fontWeight: '600',
+    color: TEXT_DARK,
   },
   menuListHeader: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '600',
-    color: '#495057',
+    color: TEXT_DARK,
     marginBottom: 12,
-    marginTop: 16, // Add space before the list starts
+    marginTop: 16,
   },
-  // --- End New Stats Styles ---
-
   listContainer: { 
     paddingBottom: 100, 
     paddingHorizontal: 16 
   },
-  footer: { position: 'absolute', bottom: 0, left: 0, right: 0, flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 12, paddingBottom: 25, borderTopWidth: 1, borderTopColor: '#E9ECEF', backgroundColor: '#FFFFFF' },
+  footer: { 
+    position: 'absolute', 
+    bottom: 0, 
+    left: 0, 
+    right: 0, 
+    flexDirection: 'row', 
+    justifyContent: 'space-around', 
+    paddingVertical: 12, 
+    paddingBottom: Platform.OS === 'ios' ? 34 : 20, // Better safe area handling for bottom
+    borderTopWidth: 1, 
+    borderTopColor: BORDER_COLOR, 
+    backgroundColor: CARD_BG 
+  },
   button: { 
     flexDirection: 'row', 
-    backgroundColor: '#C19A6B', 
+    backgroundColor: PRIMARY_COLOR, 
     paddingVertical: 12, 
     paddingHorizontal: 20, 
     borderRadius: 30, 
@@ -236,7 +231,7 @@ const styles = StyleSheet.create({
     }),
   },
   buttonText: { color: '#FFFFFF', fontSize: 16, fontWeight: 'bold', marginLeft: 8 },
-  emptyText: { textAlign: 'center', marginTop: 30, fontSize: 16, color: '#6C757D' }, // Adjusted margin
+  emptyText: { textAlign: 'center', marginTop: 30, fontSize: 16, color: TEXT_LIGHT },
 });
 
 export default HomeScreen;
